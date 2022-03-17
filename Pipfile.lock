@@ -25,12 +25,18 @@
         },
         "sqlcipher3-binary": {
             "hashes": [
-                "sha256:1f95560820f7495af8a4cd24bc7dab4ec1144b6eae6acd8295a2b569fe81609b",
-                "sha256:52969904c63197a8e4656b50838d7a1cdc374194667c126e5f0a558c4b206b8b",
-                "sha256:816df8036305cfad27c6ad6c4a4ebfd29fbe7a7364d959588b6dbd29bce69dc0"
+                "sha256:058968d8075f8af3b3e3cb4e9e103316434264ec73a87ba18a7105efc7173b30",
+                "sha256:156b2f2a08224a4bbb1562d9ce7f5e7f21a862a3545022fe1b4c4d3116dcaf07",
+                "sha256:29e514c1c3663839201ed6ee3cacc67adb6675379348668e1488162e985924b4",
+                "sha256:59279b3195803cefb7427135a0169e53958252c51210b3b1bb6949abf9a9f135",
+                "sha256:8e09a8a9b85c33ac3dc58733f28a6d34f97f3f9ebd644b28744a78b01da46417",
+                "sha256:91d14b2791aff7c67d8c9961b6112a4ef4270c3ed18f171218031e335da5d150",
+                "sha256:9514fea23418807d33c45672e6b4ff901f135f93135c36bd69d6ae67c1cf792f",
+                "sha256:cb4730389eda20f5828d5910401ce6017ad608105800b47482a8df3103779e9c",
+                "sha256:dcd08c8c0e5f012263ed46fe116c5541c843d67c4d18f9e17673096099b3f9f7"
             ],
             "index": "pypi",
-            "version": "==0.4.2"
+            "version": "==0.4.5"
         }
     },
     "develop": {}
