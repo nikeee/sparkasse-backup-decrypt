@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "e228d3065a34b26141c9e9afca8774ecae43dbda7a00dc0138a6584bd3d05870"
+            "sha256": "d0fe5395471c6c9d3db01cc0c3c72fc67e40c0fe215f67142ba170b8a1dafbb6"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -16,13 +16,6 @@
         ]
     },
     "default": {
-        "pycrypto": {
-            "hashes": [
-                "sha256:f2ce1e989b272cfcb677616763e0a2e7ec659effa67a88aa92b3a65528f60a3c"
-            ],
-            "index": "pypi",
-            "version": "==2.6.1"
-        },
         "sqlcipher3-binary": {
             "hashes": [
                 "sha256:058968d8075f8af3b3e3cb4e9e103316434264ec73a87ba18a7105efc7173b30",
