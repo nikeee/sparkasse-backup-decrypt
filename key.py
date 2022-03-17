@@ -66,7 +66,7 @@ def derive_key(password: str, salt: bytes) -> bytes:
 
     encoded_password = password.encode('utf-8')
 
-    # hoplefully performs the same as mbedtls_pkcs5_pbkdf2_hmac
+    # hopefully performs the same operations as `mbedtls_pkcs5_pbkdf2_hmac`
     return hashlib.pbkdf2_hmac(
         'sha1',
         encoded_password,
