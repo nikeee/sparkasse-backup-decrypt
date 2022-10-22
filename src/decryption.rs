@@ -1,4 +1,4 @@
-use std::io::Read;
+use std::{io::Read, path::Path};
 
 use rusqlite::Connection;
 use tempfile::NamedTempFile;
@@ -25,7 +25,7 @@ pub fn decrypt_sqlcipher_key<T: Read>(
 pub fn decrypt_database_file_to<T: Read>(
     encrypted_database: &mut T,
     key: &str,
-    out_file: &str,
+    out_file: &Path,
 ) -> Result<(), DecryptionError> {
     let mut file = NamedTempFile::new().map_err(|_| "Unable to create temporary file")?;
 
@@ -40,7 +40,7 @@ pub fn decrypt_database_file_to<T: Read>(
 
     // https://stackoverflow.com/a/32571540
     // Empty key will disable encryption
-    conn.execute("ATTACH DATABASE ? AS plaintext KEY ''", &[out_file])
+    conn.execute("ATTACH DATABASE ? AS plaintext KEY ''", &[out_file.to_str().unwrap()])
         .map_err(|_| "Unable to attach output database")?;
 
     conn.query_row("SELECT sqlcipher_export('plaintext')", [], |_| Ok(()))
