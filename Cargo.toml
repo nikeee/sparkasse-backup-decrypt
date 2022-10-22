@@ -13,3 +13,4 @@ sha1 = { version = "0.10", package = "sha-1", default-features = false }
 cbc = "0.1.2"
 aes = "0.8.1"
 zip = "0.6.3"
+rusqlite = { version = "0.28.0", features=["bundled-sqlcipher-vendored-openssl"] }
