@@ -3,6 +3,17 @@ use std::io::Read;
 use rusqlite::Connection;
 use tempfile::NamedTempFile;
 
+use crate::{prefs, key};
+
+// TODO: Error handling
+pub fn decrypt_sqlcipher_key<T: Read>(shared_prefs: &mut T, password: &str) -> Option<String> {
+    let mut shared_prefs_buf = Vec::new();
+    shared_prefs.read_to_end(&mut shared_prefs_buf).unwrap();
+
+    let key_params = prefs::read_key_params_from_shared_preferences(&shared_prefs_buf).unwrap();
+
+    key::decrypt_key(&key_params, &password).unwrap().into()
+}
 
 pub fn decrypt_database_file<T: Read>(encrypted_database: &mut T, key: &str, out_file: &str) -> Option<()> {
     let mut file = NamedTempFile::new().unwrap(); // TODO: Error handling

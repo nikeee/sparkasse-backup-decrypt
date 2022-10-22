@@ -1,12 +1,8 @@
-use std::{
-    fs::File,
-    io::{BufReader, Read},
-    path::Path,
-};
+use std::{fs::File, io::BufReader, path::Path};
 
+mod decryption;
 mod key;
 mod prefs;
-mod decryption;
 
 const DATABASE_PATH: &str =
     "/data/user/0/com.starfinanz.smob.android.sfinanzstatus/databases/data.db";
@@ -23,18 +19,11 @@ fn main() {
 
     let mut zip_file = zip::ZipArchive::new(backup_reader).unwrap();
 
-    let sqlcipher_key = {
+    let key = {
         let mut sp = zip_file.by_name("StarMoneyPrefs").unwrap();
-        let mut shared_prefs = Vec::new();
-        sp.read_to_end(&mut shared_prefs).unwrap();
-
-        let key_params = prefs::read_key_params_from_shared_preferences(&shared_prefs).unwrap();
-        println!("{:?}", key_params);
-
-        key::decrypt_key(&key_params, &password).unwrap()
+        decryption::decrypt_sqlcipher_key(&mut sp, password).unwrap()
     };
 
-    println!("{:?}", sqlcipher_key);
     let mut encrypted_database = zip_file.by_name(DATABASE_PATH).unwrap();
-    decryption::decrypt_database_file(&mut encrypted_database, &sqlcipher_key, &out_file);
+    decryption::decrypt_database_file(&mut encrypted_database, &key, &out_file);
 }
