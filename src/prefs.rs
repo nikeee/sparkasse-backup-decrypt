@@ -1,3 +1,4 @@
+#[derive(Debug)]
 pub struct KeyParams {
     pub salt_and_iv: [u8; 16],
     pub encrypted_database_key: Vec<u8>,
@@ -15,6 +16,7 @@ pub fn read_key_params_from_shared_preferences(shared_preferences: &[u8]) -> Opt
     if sf3.len() != 0x40 {
         return None;
     }
+
     // sf2, sf4, sf5 and sf6 are used for different purposes
     // They are all byte[] (except sf5, which is an int)
 
