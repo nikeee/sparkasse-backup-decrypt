@@ -5,6 +5,7 @@ CLI tool to extract and decrypt the SQLite database of a backup ZIP of the [Spar
 ## Install
 ```shell
 git clone https://github.com/nikeee/sparkasse-backup-decrypt
+git checkout python-version
 pipenv install
 ```
 
