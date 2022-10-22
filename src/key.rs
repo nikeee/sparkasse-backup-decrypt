@@ -17,13 +17,13 @@ pub fn decrypt_key(params: &KeyParams, password: &str) -> Option<String> {
     let k_d = derive_internal_key(&params.salt_and_iv, password);
 
     // AES parameters according to source: AES/CBC/PKCS5Padding
-    // We use PKCS#7 because PKCS#5 is a subset of PKCS#7
+    // We use PKCS#7 because PKCS#5 is a subset of PKCS#7: https://crypto.stackexchange.com/a/9044
     let decryptor = cbc::Decryptor::<aes::Aes256>::new(&k_d.into(), &params.salt_and_iv.into());
 
-    let mut k_0_buf = [0u8; 0x40];
+    let mut k_0_buf = params.encrypted_database_key.clone();
     decryptor.decrypt_padded_mut::<Pkcs7>(&mut k_0_buf).ok()?;
 
-    let k_0 = std::str::from_utf8(&k_0_buf).ok()?;
+    let k_0 = std::str::from_utf8(&k_0_buf[..32]).ok()?;
 
     Some(k_0.into())
 }
