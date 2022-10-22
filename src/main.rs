@@ -23,13 +23,17 @@ struct Args {
     #[arg(short, long)]
     out_file: PathBuf,
 
-    /// App password. Is used to decrypt the SQLite database.
+    /// App password. Is used to decrypt the SQLite database. If not provided, will be asked upon command invocation.
     #[arg(short, long)]
-    password: String,
+    password: Option<String>,
 }
 
 fn main() {
     let args = Args::parse();
+
+    let password = args.password.unwrap_or_else(|| {
+        rpassword::prompt_password("App password (won't be printed): ").unwrap()
+    });
 
     let backup_file = File::open(&args.in_file).unwrap();
     let backup_reader = BufReader::new(backup_file);
@@ -38,7 +42,7 @@ fn main() {
 
     let key = match zip_file.by_name("StarMoneyPrefs") {
         Err(_) => panic!("Could not find StarMoneyPrefs in backup. Most likely, the provided ZIP file is not a valid backup."),
-        Ok(mut sp) => decryption::decrypt_sqlcipher_key(&mut sp, &args.password).unwrap_or_else(|e| panic!("{}", e.message))
+        Ok(mut sp) => decryption::decrypt_sqlcipher_key(&mut sp, &password).unwrap_or_else(|e| panic!("{}", e.message))
     };
 
     let mut encrypted_database = zip_file.by_name(DATABASE_PATH)
