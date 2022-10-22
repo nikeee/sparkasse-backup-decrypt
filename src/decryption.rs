@@ -15,7 +15,7 @@ pub fn decrypt_sqlcipher_key<T: Read>(shared_prefs: &mut T, password: &str) -> O
     key::decrypt_key(&key_params, &password).unwrap().into()
 }
 
-pub fn decrypt_database_file<T: Read>(encrypted_database: &mut T, key: &str, out_file: &str) -> Option<()> {
+pub fn decrypt_database_file_to<T: Read>(encrypted_database: &mut T, key: &str, out_file: &str) -> Option<()> {
     let mut file = NamedTempFile::new().unwrap(); // TODO: Error handling
 
     std::io::copy(encrypted_database, &mut file).unwrap();

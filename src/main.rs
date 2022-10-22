@@ -25,5 +25,5 @@ fn main() {
     };
 
     let mut encrypted_database = zip_file.by_name(DATABASE_PATH).unwrap();
-    decryption::decrypt_database_file(&mut encrypted_database, &key, &out_file);
+    decryption::decrypt_database_file_to(&mut encrypted_database, &key, &out_file);
 }
