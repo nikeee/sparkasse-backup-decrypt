@@ -2,7 +2,7 @@
 
 CLI tool to extract and decrypt the SQLite database of a backup ZIP of the [Sparkasse Android application](https://play.google.com/store/apps/details?id=com.starfinanz.smob.android.sfinanzstatus).
 
-This project was rewritten. In case it does not work for you, you can find the previous version in [`python-version`](./python-version).
+This project was rewritten. In case it does not work for you, you can find the previous version in the branch [`python-version`](https://github.com/nikeee/sparkasse-backup-decrypt/tree/python-version).
 
 ## Install
 TODO
