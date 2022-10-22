@@ -18,3 +18,13 @@ TODO
 # You can check if the out file is in plaintext by using sqlite3:
 # sqlite3 plaintext.db .schema
 ```
+
+## Compile from Source
+```shell
+git clone https://github.com/nikeee/sparkasse-backup-decrypt.git
+cd sparkasse-backup-decrypt
+cargo build --release
+
+# binary located at:
+# target/release/sparkasse-backup-decrypt
+```
