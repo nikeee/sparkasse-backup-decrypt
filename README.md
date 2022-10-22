@@ -8,6 +8,20 @@ This project was rewritten. In case it does not work for you, you can find the p
 TODO
 
 ## Usage
+
+### Prerequisites
+You need to have a backup zip file. [Look at the comments on how to get one](https://blog.sparkasse-allgaeu.de/artikel/die-sparkassen-app-auf-ein-neues-handy-uebertragen).
+Depending on your Android version, backups are located at:
+- `/storage/emulated/0/ebanking`
+- `/storage/emulated/0/Android/data/com.starfinanz.smob.android.sfinanzstatus/files`
+
+If you are running Android 11+, chances are that you need to access the files using your PC by connecting your phone to the PC via USB.
+You can also use ADB instead of crappy MTP:
+```shell
+adb pull "/storage/emulated/0/Android/data/com.starfinanz.smob.android.sfinanzstatus/files/"
+```
+
+### Decryption
 ```shell
 ./sparkasse-backup-decrypt --in-file <path-to-backup.zip> --out-file <path-to-target-plaintext.db>
 # (you will be asked for your app password)
