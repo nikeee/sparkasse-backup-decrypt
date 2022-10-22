@@ -4,7 +4,6 @@ on:
   push:
     branches:
     - master
-  pull_request:
 
 env:
   CARGO_TERM_COLOR: always
@@ -39,4 +38,10 @@ jobs:
         restore-keys: ${{ runner.os }}-cargo-
 
     - name: Build
-      run: cargo build
+      run: cargo build --release
+
+    - name: Archive standalone executables
+      uses: actions/upload-artifact@v3
+      with:
+        name: binaries
+        path: target/release/sparkasse-backup-decrypt
