@@ -7,7 +7,7 @@ from typing import Optional, Union, BinaryIO
 from Crypto.Cipher import AES
 
 # sqlcipher supports keys and even re-keying. It also does HMAC internally.
-# Don't know why they roll their own thing. Maybe this is a compat-thing or they donÄt want to rely on sqlcipher so heavily.
+# Don't know why they roll their own thing. Maybe this is a compat-thing or they don't want to rely on sqlcipher so heavily.
 
 def extract_key_from_shared_prefs(contents: bytes, password: str) -> Optional[str]:
 
