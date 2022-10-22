@@ -557,6 +557,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "rpassword"
+version = "7.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "20c9f5d2a0c3e2ea729ab3706d22217177770654c3ef5056b68b69d07332d3f5"
+dependencies = [
+ "libc",
+ "winapi",
+]
+
+[[package]]
 name = "rusqlite"
 version = "0.28.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -619,6 +629,7 @@ dependencies = [
  "clap",
  "hmac",
  "pbkdf2",
+ "rpassword",
  "rusqlite",
  "sha-1",
  "tempfile",
