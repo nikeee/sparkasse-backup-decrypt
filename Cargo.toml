@@ -7,7 +7,7 @@ edition = "2021"
 
 [dependencies]
 base64 = "0.21.0"
-pbkdf2 = { version = "0.11", default-features = false}
+pbkdf2 = { version = "0.12", default-features = false}
 hmac = { version = "0.12", default-features = false }
 sha1 = { version = "0.10", package = "sha-1", default-features = false }
 cbc = "0.1.2"
