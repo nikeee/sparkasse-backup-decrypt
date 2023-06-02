@@ -12,7 +12,7 @@ hmac = { version = "0.12", default-features = false }
 sha1 = { version = "0.10", package = "sha-1", default-features = false }
 cbc = "0.1.2"
 aes = "0.8.2"
-zip = "0.6.4"
+zip = "0.6.6"
 rusqlite = { version = "0.29.0", features = ["bundled-sqlcipher-vendored-openssl"] }
 tempfile = "3.5.0"
 clap = { version = "4.2.5", features = ["derive"] }
