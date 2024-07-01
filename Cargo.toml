@@ -15,5 +15,5 @@ aes = "0.8.4"
 zip = "1.1.4"
 rusqlite = { version = "0.31.0", features = ["bundled-sqlcipher-vendored-openssl"] }
 tempfile = "3.6.0"
-clap = { version = "4.5.4", features = ["derive"] }
+clap = { version = "4.5.8", features = ["derive"] }
 rpassword = "7.3.1"
