@@ -5,8 +5,8 @@ mod decryption;
 mod key;
 mod prefs;
 
-const DATABASE_PATH: &str =
-    "/data/user/0/com.starfinanz.smob.android.sfinanzstatus/databases/data.db";
+// Ref: https://github.com/nikeee/sparkasse-backup-decrypt/issues/67
+const DATABASE_PATH: &str = "data.db";
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
@@ -42,7 +42,7 @@ fn main() {
     };
 
     let mut encrypted_database = zip_file.by_name(DATABASE_PATH)
-        .unwrap_or_else(|_| panic!("Could not find StarMoneyPrefs in backup. Most likely, the provided ZIP file is not a valid backup."));
+        .unwrap_or_else(|_| panic!("Could not find database file in backup. Most likely, the provided ZIP file is not a valid backup or the database path changed."));
 
     decryption::decrypt_database_file_to(&mut encrypted_database, &key, &args.out_file)
         .unwrap_or_else(|e| panic!("{}", e.message))
