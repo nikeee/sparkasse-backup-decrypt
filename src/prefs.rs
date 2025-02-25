@@ -1,3 +1,5 @@
+use base64::prelude::*;
+
 #[derive(Debug)]
 pub struct KeyParams {
     pub salt_and_iv: [u8; 16],
@@ -21,8 +23,8 @@ pub fn read_key_params_from_shared_preferences(shared_preferences: &[u8]) -> Opt
     // They are all byte[] (except sf5, which is an int)
 
     // byte[] are saved as base64 strings
-    let salt_and_iv = base64::decode(sf1).ok()?;
-    let encrypted_database_key = base64::decode(sf3).ok()?;
+    let salt_and_iv = BASE64_STANDARD.decode(sf1).ok()?;
+    let encrypted_database_key = BASE64_STANDARD.decode(sf3).ok()?;
 
     Some(KeyParams {
         salt_and_iv: salt_and_iv.try_into().ok()?,
