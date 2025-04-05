@@ -4,10 +4,10 @@ use jaded::{AnnotationIter, ConversionResult, FromJava};
 #[derive(Debug, FromJava)]
 struct EncryptionSettings {
     #[jaded(extract(extract_sf3))]
-    /// sf1 holds the salt of PBKDF2 (also used as IV in AES encryption)
+    /// sf3 holds the encrypted database key
     sf3: String,
     #[jaded(extract(extract_sf1))]
-    /// sf3 holds the encrypted database key
+    /// sf1 holds the salt of PBKDF2 (also used as IV in AES encryption)
     sf1: String,
 }
 
