@@ -1,4 +1,69 @@
 use base64::prelude::*;
+use jaded::{AnnotationIter, ConversionResult, FromJava};
+
+#[derive(Debug, FromJava)]
+struct EncryptionSettings {
+    #[jaded(extract(extract_sf3))]
+    /// sf1 holds the salt of PBKDF2 (also used as IV in AES encryption)
+    sf3: String,
+    #[jaded(extract(extract_sf1))]
+    /// sf3 holds the encrypted database key
+    sf1: String,
+}
+
+fn extract_sf3(anootations: &mut AnnotationIter) -> ConversionResult<String> {
+    loop {
+        match anootations.read_object_as::<String>() {
+            Ok(label) => {
+                if label == "sf3" {
+                    let value: String = anootations.read_object_as().unwrap();
+                    return ConversionResult::Ok(value);
+                }
+            }
+            Err(err) => match err {
+                jaded::ConversionError::UnexpectedBlockData(ref _vec) => {
+                    let _x = anootations.read_u8();
+                    continue;
+                }
+                jaded::ConversionError::NullPointerException => {
+                    return ConversionResult::Err(jaded::ConversionError::FieldNotFound(
+                        "sf1".to_string(),
+                    ));
+                }
+                _ => {
+                    continue;
+                }
+            },
+        }
+    }
+}
+
+fn extract_sf1(anootations: &mut AnnotationIter) -> ConversionResult<String> {
+    loop {
+        match anootations.read_object_as::<String>() {
+            Ok(label) => {
+                if label == "sf1" {
+                    let value: String = anootations.read_object_as().unwrap();
+                    return ConversionResult::Ok(value);
+                }
+            }
+            Err(err) => match err {
+                jaded::ConversionError::UnexpectedBlockData(ref _vec) => {
+                    let _x = anootations.read_u8();
+                    continue;
+                }
+                jaded::ConversionError::NullPointerException => {
+                    return ConversionResult::Err(jaded::ConversionError::FieldNotFound(
+                        "sf1".to_string(),
+                    ));
+                }
+                _ => {
+                    continue;
+                }
+            },
+        }
+    }
+}
 
 #[derive(Debug)]
 pub struct KeyParams {
@@ -7,53 +72,22 @@ pub struct KeyParams {
 }
 
 pub fn read_key_params_from_shared_preferences(shared_preferences: &[u8]) -> Option<KeyParams> {
-    // sf1 holds the salt of PBKDF2 (also used as IV in AES encryption)
-    let sf1 = read_shared_preferences_entry(shared_preferences, b"sf1")?;
-    if sf1.len() != 0x18 {
-        return None;
-    }
+    let mut preference_praser =
+        jaded::Parser::new(shared_preferences).expect("java data parser failure");
 
-    // sf3 holds the encrypted database key
-    let sf3 = read_shared_preferences_entry(shared_preferences, b"sf3")?;
-    if sf3.len() != 0x40 {
-        return None;
-    }
+    let encryption_settings: EncryptionSettings = preference_praser
+        .read_as()
+        .expect("unable to find encryption settings in StarMoneyPrefs");
 
     // sf2, sf4, sf5 and sf6 are used for different purposes
     // They are all byte[] (except sf5, which is an int)
 
     // byte[] are saved as base64 strings
-    let salt_and_iv = BASE64_STANDARD.decode(sf1).ok()?;
-    let encrypted_database_key = BASE64_STANDARD.decode(sf3).ok()?;
+    let salt_and_iv = BASE64_STANDARD.decode(encryption_settings.sf1).ok()?;
+    let encrypted_database_key = BASE64_STANDARD.decode(encryption_settings.sf3).ok()?;
 
     Some(KeyParams {
         salt_and_iv: salt_and_iv.try_into().ok()?,
         encrypted_database_key,
     })
-}
-
-fn read_shared_preferences_entry<'a>(
-    shared_preferences: &'a [u8],
-    entry: &'_ [u8],
-) -> Option<&'a str> {
-    let entry_start = shared_preferences
-        .windows(entry.len())
-        .enumerate()
-        .find(|(_, s)| *s == entry)
-        .map(|(index, _)| index)?;
-
-    // Starting from entry_start, we have this data:
-    // <entry name> <1 byte for whatever usage> <2 byte content length> <<content-length> bytes content>
-
-    let content_length_start = entry_start + entry.len() + 1;
-
-    let content_length_bytes = &shared_preferences[content_length_start..content_length_start + 2]
-        .try_into()
-        .ok()?;
-
-    let content_length = u16::from_be_bytes(*content_length_bytes) as usize;
-    let content_start = content_length_start + 2;
-
-    let content = &shared_preferences[content_start..content_start + content_length];
-    std::str::from_utf8(content).ok()
 }
