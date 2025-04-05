@@ -11,18 +11,18 @@ struct EncryptionSettings {
     sf1: String,
 }
 
-fn extract_sf3(anootations: &mut AnnotationIter) -> ConversionResult<String> {
+fn extract_sf3(annotations: &mut AnnotationIter) -> ConversionResult<String> {
     loop {
-        match anootations.read_object_as::<String>() {
+        match annotations.read_object_as::<String>() {
             Ok(label) => {
                 if label == "sf3" {
-                    let value: String = anootations.read_object_as().unwrap();
+                    let value: String = annotations.read_object_as().unwrap();
                     return ConversionResult::Ok(value);
                 }
             }
             Err(err) => match err {
                 jaded::ConversionError::UnexpectedBlockData(ref _vec) => {
-                    let _x = anootations.read_u8();
+                    let _x = annotations.read_u8();
                     continue;
                 }
                 jaded::ConversionError::NullPointerException => {
@@ -38,18 +38,18 @@ fn extract_sf3(anootations: &mut AnnotationIter) -> ConversionResult<String> {
     }
 }
 
-fn extract_sf1(anootations: &mut AnnotationIter) -> ConversionResult<String> {
+fn extract_sf1(annotations: &mut AnnotationIter) -> ConversionResult<String> {
     loop {
-        match anootations.read_object_as::<String>() {
+        match annotations.read_object_as::<String>() {
             Ok(label) => {
                 if label == "sf1" {
-                    let value: String = anootations.read_object_as().unwrap();
+                    let value: String = annotations.read_object_as().unwrap();
                     return ConversionResult::Ok(value);
                 }
             }
             Err(err) => match err {
                 jaded::ConversionError::UnexpectedBlockData(ref _vec) => {
-                    let _x = anootations.read_u8();
+                    let _x = annotations.read_u8();
                     continue;
                 }
                 jaded::ConversionError::NullPointerException => {
