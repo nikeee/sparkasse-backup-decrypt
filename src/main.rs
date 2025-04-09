@@ -1,12 +1,30 @@
-use clap::Parser;
+use clap::{Parser, ValueEnum};
 use std::{fs::File, io::BufReader, path::PathBuf};
 
 mod decryption;
 mod key;
 mod prefs;
 
-// Ref: https://github.com/nikeee/sparkasse-backup-decrypt/issues/67
-const DATABASE_PATH: &str = "data.db";
+#[derive(Debug, Clone, ValueEnum)]
+pub enum ApplicationDatabase {
+    OldDb,
+    NewDb,
+}
+
+impl Default for ApplicationDatabase {
+    fn default() -> Self {
+        Self::NewDb
+    }
+}
+
+impl ApplicationDatabase {
+    pub fn database_file(&self) -> &'static str {
+        match self {
+            ApplicationDatabase::OldDb => "data.db",
+            ApplicationDatabase::NewDb => "mkabankingapplication.db",
+        }
+    }
+}
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
@@ -18,6 +36,10 @@ struct Args {
     /// Target path for the plaintext (decrypted) SQLite file.
     #[arg(short, long)]
     out_file: PathBuf,
+
+    /// Database from backup that should be decrypted
+    #[arg(short, long)]
+    db_file: ApplicationDatabase,
 
     /// App password. Is used to decrypt the SQLite database. If not provided, will be asked upon command invocation.
     #[arg(short, long)]
@@ -41,7 +63,7 @@ fn main() {
         Ok(mut sp) => decryption::decrypt_sqlcipher_key(&mut sp, &password).unwrap_or_else(|e| panic!("{}", e.message))
     };
 
-    let mut encrypted_database = zip_file.by_name(DATABASE_PATH)
+    let mut encrypted_database = zip_file.by_name(&args.db_file.database_file())
         .unwrap_or_else(|_| panic!("Could not find database file in backup. Most likely, the provided ZIP file is not a valid backup or the database path changed."));
 
     decryption::decrypt_database_file_to(&mut encrypted_database, &key, &args.out_file)
