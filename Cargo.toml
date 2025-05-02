@@ -13,7 +13,7 @@ sha1 = { version = "0.10", package = "sha-1", default-features = false }
 cbc = "0.1.2"
 aes = "0.8.4"
 zip = "2.6.1"
-rusqlite = { version = "0.34.0", features = ["bundled-sqlcipher-vendored-openssl"] }
+rusqlite = { version = "0.35.0", features = ["bundled-sqlcipher-vendored-openssl"] }
 tempfile = "3.19.1"
 clap = { version = "4.5.37", features = ["derive"] }
 rpassword = "7.4.0"
