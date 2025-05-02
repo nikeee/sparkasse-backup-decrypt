@@ -16,5 +16,5 @@ zip = "2.6.1"
 rusqlite = { version = "0.34.0", features = ["bundled-sqlcipher-vendored-openssl"] }
 tempfile = "3.19.1"
 clap = { version = "4.5.37", features = ["derive"] }
-rpassword = "7.3.1"
+rpassword = "7.4.0"
 jaded = { version = "0.5.0", features = ["derive"] }
