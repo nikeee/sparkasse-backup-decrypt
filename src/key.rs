@@ -1,6 +1,5 @@
 use aes::cipher::{block_padding::Pkcs7, BlockDecryptMut};
 use cbc::cipher::KeyIvInit;
-use hmac::Hmac;
 
 use crate::prefs::KeyParams;
 
@@ -32,6 +31,6 @@ pub fn decrypt_key(params: &KeyParams, password: &str) -> Option<String> {
 fn derive_internal_key(salt: &[u8], password: &str) -> [u8; 32] {
     // hopefully performs the same operations as `mbedtls_pkcs5_pbkdf2_hmac`
     let mut res = [0u8; 32];
-    pbkdf2::pbkdf2::<Hmac<sha1::Sha1>>(password.as_bytes(), salt, 100001, &mut res).unwrap();
+    pbkdf2::pbkdf2_hmac::<sha1::Sha1>(password.as_bytes(), salt, 100001, &mut res);
     res
 }
