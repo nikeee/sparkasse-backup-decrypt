@@ -9,7 +9,7 @@ edition = "2024"
 base64 = "0.22.1"
 pbkdf2 = { version = "0.12.2", default-features = false, features = ["hmac"] }
 sha1 = { version = "0.10", package = "sha-1", default-features = false }
-cbc = "0.1.2"
+cbc = "0.2.0"
 aes = "0.8.4"
 zip = "8.6.0"
 rusqlite = { version = "0.39.0", features = ["bundled-sqlcipher-vendored-openssl"] }
