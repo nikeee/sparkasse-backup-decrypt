@@ -11,7 +11,7 @@ pbkdf2 = { version = "0.12.2", default-features = false, features = ["hmac"] }
 sha1 = { version = "0.10", package = "sha-1", default-features = false }
 cbc = "0.1.2"
 aes = "0.8.4"
-zip = "8.1.0"
+zip = "8.6.0"
 rusqlite = { version = "0.39.0", features = ["bundled-sqlcipher-vendored-openssl"] }
 tempfile = "3.27.0"
 clap = { version = "4.6.0", features = ["derive"] }
