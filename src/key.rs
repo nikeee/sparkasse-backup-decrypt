@@ -1,4 +1,4 @@
-use aes::cipher::{block_padding::Pkcs7, BlockDecryptMut};
+use aes::cipher::{block_padding::Pkcs7, BlockModeDecrypt};
 use cbc::cipher::KeyIvInit;
 
 use crate::prefs::KeyParams;
@@ -20,7 +20,7 @@ pub fn decrypt_key(params: &KeyParams, password: &str) -> Option<String> {
     let decryptor = cbc::Decryptor::<aes::Aes256>::new(&k_d.into(), &params.salt_and_iv.into());
 
     let mut k_0_buf = params.encrypted_database_key.clone();
-    decryptor.decrypt_padded_mut::<Pkcs7>(&mut k_0_buf).ok()?;
+    decryptor.decrypt_padded::<Pkcs7>(&mut k_0_buf).ok()?;
 
     let k_0 = std::str::from_utf8(&k_0_buf[..32]).ok()?;
 
