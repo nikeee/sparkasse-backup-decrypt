@@ -10,7 +10,7 @@ base64 = "0.22.1"
 pbkdf2 = { version = "0.13.0", default-features = false, features = ["hmac"] }
 sha1 = { version = "0.11", default-features = false }
 cbc = "0.2.0"
-aes = "0.9.0"
+aes = "0.9.1"
 zip = "8.6.0"
 rusqlite = { version = "0.39.0", features = ["bundled-sqlcipher-vendored-openssl"] }
 tempfile = "3.27.0"
